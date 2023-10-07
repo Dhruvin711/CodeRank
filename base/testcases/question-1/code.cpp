@@ -1,22 +1,18 @@
-#include<bits/stdc++.h>
-#define ll long long
+#include<iostream>
 using namespace std;
-
 int main()
 {
-    ll n, m; cin>>n>>m;
+    int n; cin>>n;
 
-    ll sum = 0;
+    int temp = n, rev = 0, rem;
 
-    for(ll i=0; i<m; i++){
-        sum += i+1;
+    while(temp>0){
+        rem = temp%10;
+        rev = rev*10 + rem;
+        temp /= 10;
     }
 
-    for(ll i=2; i<=n; i++){
-        sum += m*i;
-    }
-
-    cout<<sum;
+    cout<<(rev == n ? 1 : 0);
 
     return 0;
 }

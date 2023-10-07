@@ -149,6 +149,34 @@ def problemPage(request, pk):
         
     return render(request, 'base/problem-page.html', context)
 
+def createProblem(request):    
+    if request.method == 'POST':
+        problem = Problem.objects.create(
+            name = request.POST.get('problem_name'),
+            desc = request.POST.get('problem_desc'),
+            topic_tag = request.POST.get('topic_tags'),
+            difficulty = request.POST.get('difficulty')
+        )
+
+        messages.info(request, 'Congretulations, Your problem is now part of CodeRank 🪄')
+        return redirect(home)
+    
+    return render(request, 'base/createProblem.html')
+
+def createTestCase(request, pk):
+    if request.method == 'POST':
+        problem = Problem.objects.get(id=pk)
+
+        testCase = TestCases.objects.create(
+            problem = problem,
+            input = request.POST.get('input'),
+            output = request.POST.get('output')
+        )
+
+        messages.info(request, 'Your TestCase is added to the problem')
+
+    return render(request, 'base/createTestCase.html')
+
 def leaderboard(request):
     submissions = Solution.objects.all()
 
