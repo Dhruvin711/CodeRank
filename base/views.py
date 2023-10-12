@@ -23,15 +23,19 @@ def loginPage(request):
         return redirect('home')
     
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
 
+        test_user = None
         try:
-            user = User.objects.get(username = username)
+            test_user = User.objects.get(email = email)
         except:
             messages.error(request, 'Username does not exist')
         
-        user = authenticate(request, username=username, password=password)
+        user = None
+        if test_user is not None:
+            username = test_user.username
+            user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
